@@ -20,7 +20,7 @@ func handleGetAllItems(c *gin.Context) {
 func handlePostItem(c *gin.Context) {
 	var newItem models.Item
 	if err := c.ShouldBindJSON(&newItem); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		SendErrorReponse(c, err)
 		return
 	}
 	ItemService.PostItem(&newItem)

@@ -19,7 +19,7 @@ type Item struct {
 	Latitude    float64        `gorm:"column:latitude"`
 	Longitude   float64        `gorm:"column:longitude"`
 	Images      pq.StringArray `gorm:"column:images;type:text[]"`
-	CreatedDate time.Time      `gorm:"column:createddate"`
+	CreatedDate time.Time      `gorm:"-"`
 }
 
 func (Item) TableName() string {

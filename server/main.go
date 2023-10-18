@@ -8,7 +8,9 @@ import (
 )
 
 func main() {
+	//LoadEnv()
 	engine := GetAppEngine()
+
 	AddEngineConfiguations(engine)
 	engine.Run()
 }
@@ -25,6 +27,7 @@ func AddEngineConfiguations(e *gin.Engine) {
 
 func AddAppRoutes(e *gin.Engine) {
 	controllers.AddItemRoutes(e)
+	controllers.AddAuthRoutes(e)
 
 }
 

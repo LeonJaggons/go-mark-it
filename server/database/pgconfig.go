@@ -2,7 +2,7 @@ package database
 
 type PGConfig struct {
 	host     string
-	port     int
+	port     string
 	user     string
 	password string
 	dbname   string
