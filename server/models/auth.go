@@ -13,6 +13,7 @@ type User struct {
 	Password     string    `json:"password" binding:"required" gorm:"-"`
 	PasswordHash string    `json:"passwordHash" gorm:"column:passwordhash"`
 	CreatedDate  time.Time `json:"createdDate" gorm:"column:createddate"`
+	Error        error     `json:"error" gorm:"-"`
 }
 
 func (User) TableName() string {

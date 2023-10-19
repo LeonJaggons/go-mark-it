@@ -14,7 +14,7 @@ type AuthService struct {
 }
 
 func (a *AuthService) HashPassword(registerUser *models.User) error {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(registerUser.Password), 8)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(registerUser.Password), bcrypt.DefaultCost)
 	registerUser.PasswordHash = string(bytes)
 	return err
 }

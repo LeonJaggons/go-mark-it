@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"mark-it/models"
 	"net/http"
 
@@ -39,15 +40,15 @@ func handleSignIn(c *gin.Context) {
 
 	user, err := AuthService.GetUserByEmail(userCreds.Email)
 	if err != nil {
-		SendErrorReponse(c, err)
+		SendErrorReponse(c, errors.New("user not found"))
 		return
 	}
 	loginErr := AuthService.CheckPassword(userCreds.Password, user)
 	if loginErr != nil {
-		SendErrorReponse(c, loginErr)
+		SendErrorReponse(c, errors.New("incorrect password"))
 		return
 	}
-	c.String(http.StatusOK, "User signed in")
+	c.JSON(http.StatusOK, user)
 	// AuthService.SignInUser(userCreds)
 
 }

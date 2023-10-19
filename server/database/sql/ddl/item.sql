@@ -28,7 +28,7 @@ create TABLE IF NOT exists item (
 	createdDate timestamp default NOW()
 );
 
-create table if not exists user (
+create table if not exists "user" (
 	id uuid PRIMARY KEY default gen_random_uuid()
 	firstName text,
 	lastName text,
