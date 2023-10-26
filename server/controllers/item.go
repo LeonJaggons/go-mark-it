@@ -10,6 +10,7 @@ import (
 func AddItemRoutes(e *gin.Engine) {
 	AddRoute(e, "GET", handleGetAllItems, "item")
 	AddRoute(e, "POST", handlePostItem, "item")
+	AddRoute(e, "GET", handleGetCategory, "item", "category")
 }
 
 func handleGetAllItems(c *gin.Context) {
@@ -25,4 +26,18 @@ func handlePostItem(c *gin.Context) {
 	}
 	ItemService.PostItem(&newItem)
 	c.JSON(http.StatusAccepted, newItem)
+}
+
+func handleGetCategory(c *gin.Context) {
+	level := c.Query("level")
+	parent := c.Query("parent")
+	var cats []models.Category
+	if parent == "" {
+
+		cats = ItemService.GetCategoriesByLevel(level)
+	} else {
+		cats = ItemService.GetSubcategories(level, parent)
+	}
+
+	c.JSON(http.StatusOK, cats)
 }

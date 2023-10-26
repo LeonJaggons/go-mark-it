@@ -31,3 +31,14 @@ func (item *Item) BeforeCreate(tx *gorm.DB) (err error) {
 	item.CreatedDate = time.Now()
 	return nil
 }
+
+type Category struct {
+	Id                 string `gorm:"column:id;type:uuid"`
+	CategoryName       string `gorm:"column:categoryname"`
+	ParentCategoryName string `gorm:"column:parentcategoryname"`
+	CategoryLevel      string `gorm:"column:categorylevel"`
+}
+
+func (Category) TableName() string {
+	return "category"
+}

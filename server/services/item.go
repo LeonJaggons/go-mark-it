@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"mark-it/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -34,4 +35,17 @@ func (i *ItemService) SaveItemImages(c *gin.Context, itemId uuid.UUID) string {
 	}
 	// Return DL url
 	return ""
+}
+
+func (i *ItemService) GetCategoriesByLevel(catLevel string) []models.Category {
+	var cats []models.Category
+	i.Database.Table("category").Where("categorylevel = ?", catLevel).Find(&cats)
+	return cats
+}
+func (i *ItemService) GetSubcategories(catLevel string, parentCat string) []models.Category {
+	intLevel, _ := strconv.Atoi(catLevel)
+	intLevel = intLevel + 1
+	var cats []models.Category
+	i.Database.Table("category").Where("categorylevel = ?", intLevel).Where("parentcategoryname = ?", parentCat).Find(&cats)
+	return cats
 }
