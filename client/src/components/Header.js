@@ -3,6 +3,7 @@ import {
     Button,
     HStack,
     Icon,
+    IconButton,
     Input,
     InputGroup,
     InputLeftElement,
@@ -42,7 +43,7 @@ export const Header = () => (
         bg={"white"}
         zIndex={999}
     >
-        <HStack align={"center"} justify={"space-between"} mb={4}>
+        <HStack align={"center"} justify={"space-between"} mb={4} spacing={8}>
             <Logo />
             <Search />
             <Menu />
@@ -53,20 +54,39 @@ export const Header = () => (
     </Box>
 );
 const Search = () => {
+    const [urlParams, setUrlParams] = useState();
+    const router = useRouter();
+    const handleChange = (e) => {
+        setUrlParams({
+            ...urlParams,
+            q: e.target.value,
+        });
+    };
+    useEffect(() => {
+        if (router.isReady) {
+            const { category } = router.query;
+            setUrlParams({
+                ...urlParams,
+                category: category,
+            });
+        }
+    }, [router]);
+
     return (
-        <InputGroup w={"40vw"}>
-            <InputLeftElement>
-                <Icon
-                    as={IoSearch}
-                    color={"blackAlpha.400"}
-                    boxSize={"20px"}
-                    ml={1}
-                    mb={"3px"}
-                />
-            </InputLeftElement>
+        <InputGroup
+            maxW={"35vw"}
+            display={"flex"}
+            alignItems={"center"}
+            position={"relative"}
+        >
             <Input
-                pl={9}
-                fontSize={14}
+                pl={"20px"}
+                h={"52px"}
+                onChange={handleChange}
+                pt={1}
+                fontSize={"16px"}
+                _placeholder={{ color: "blackAlpha.600", fontWeight: "500" }}
+                rounded={"full"}
                 placeholder={"Search..."}
                 bg={"blackAlpha.100"}
                 variant={"filled"}
@@ -74,19 +94,36 @@ const Search = () => {
                     borderColor: Colors.primary,
                 }}
             />
+            <IconButton
+                pos={"absolute"}
+                right={1}
+                zIndex={999}
+                bg={"black"}
+                color={"whiteAlpha.800"}
+                rounded={"full"}
+                icon={<Icon as={IoSearch} />}
+            >
+                Search
+            </IconButton>
         </InputGroup>
     );
 };
 
 const Menu = () => {
     return (
-        <HStack spacing={"1px"}>
+        <HStack spacing={"4px"}>
             <MenuButton icon={IoAddSharp} href={"/post"} main>
                 Post a Listing
             </MenuButton>
-            <MenuButton icon={IoPricetagOutline}>Selling</MenuButton>
-            <MenuButton icon={IoHeartOutline}>Saved</MenuButton>
-            <MenuButton icon={IoChatboxOutline}>Inbox</MenuButton>
+            <MenuButton icon={IoPricetagOutline} href={"/selling"}>
+                Selling
+            </MenuButton>
+            <MenuButton icon={IoHeartOutline} href={"/saved"}>
+                Saved
+            </MenuButton>
+            <MenuButton icon={IoChatboxOutline} href={"/inbox"}>
+                Inbox
+            </MenuButton>
             <MenuButton icon={IoLogInOutline}>Sign In</MenuButton>
         </HStack>
     );
@@ -172,7 +209,7 @@ const CategoriesList = () => {
 
     return (
         categories && (
-            <HStack spacing={6} align={"center"}>
+            <HStack spacing={10} align={"center"} overflowX={"auto"} w={"full"}>
                 <MoreCategoriesDropdown
                     shownCats={catsToShow}
                     categories={categories}
