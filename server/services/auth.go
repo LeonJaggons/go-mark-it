@@ -43,7 +43,9 @@ func (a *AuthService) RegisterUser(registerUser *models.User) error {
 
 func (a *AuthService) CheckUserExists(email string) bool {
 	var users []models.User
-	a.Database.Table("user").Where("email = ?", email).Find(&users)
+	println(email)
+	a.Database.Where("email = ?", email).Find(&users)
+	println(len(users))
 	return len(users) > 0
 }
 func (a *AuthService) GetUserByEmail(email string) (*models.User, error) {

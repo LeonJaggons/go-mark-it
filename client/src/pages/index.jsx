@@ -15,31 +15,6 @@ const Home = () => {
                     <Heading size={"md"} letterSpacing={"-1px"}>
                         Today's Picks
                     </Heading>
-
-                    <HStack>
-                        <Button
-                            bg={Colors.primary}
-                            color={"blackAlpha.600"}
-                            leftIcon={<Icon as={IoLocation} />}
-                            fontWeight={500}
-                            mr={2}
-                            _hover={{ color: "blackAlpha.800" }}
-                            colorScheme={"blackAlpha"}
-                        >
-                            Location
-                        </Button>
-                        <Button
-                            bg={Colors.primary}
-                            color={"blackAlpha.600"}
-                            leftIcon={<Icon as={IoFilterSharp} />}
-                            fontWeight={500}
-                            mr={2}
-                            colorScheme={"blackAlpha"}
-                            _hover={{ color: "blackAlpha.800" }}
-                        >
-                            Filters
-                        </Button>
-                    </HStack>
                 </HStack>
             </div>
         </>

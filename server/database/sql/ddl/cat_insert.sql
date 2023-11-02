@@ -1,5 +1,3 @@
-delete from category where 1=1;
-
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (1, 'None', 'Animals & Pet Supplies');
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (1, 'None', 'Apparel & Accessories');
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (1, 'None', 'Arts & Entertainment');
@@ -5595,4 +5593,3 @@ INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (4
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (4, 'Watercraft', 'Personal Watercraft');
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (4, 'Watercraft', 'Sailboats');
 INSERT INTO category (categoryLevel, parentCategoryName, categoryName) VALUES (4, 'Watercraft', 'Yachts');
-UPDATE public.category SET parentcategoryname = null where parentcategoryname = 'None';

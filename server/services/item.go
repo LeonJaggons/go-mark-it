@@ -44,7 +44,6 @@ func (i *ItemService) GetCategoriesByLevel(catLevel string) []models.Category {
 }
 func (i *ItemService) GetSubcategories(catLevel string, parentCat string) []models.Category {
 	intLevel, _ := strconv.Atoi(catLevel)
-	intLevel = intLevel + 1
 	var cats []models.Category
 	i.Database.Table("category").Where("categorylevel = ?", intLevel).Where("parentcategoryname = ?", parentCat).Find(&cats)
 	return cats

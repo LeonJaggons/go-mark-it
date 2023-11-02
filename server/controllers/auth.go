@@ -11,7 +11,7 @@ import (
 func AddAuthRoutes(e *gin.Engine) {
 	AddRoute(e, "POST", handleRegister, "auth", "register")
 	AddRoute(e, "POST", handleSignIn, "auth", "login")
-	AddRoute(e, "POST", handleSignIn, "auth", "exists")
+	AddRoute(e, "POST", handleUserExists, "auth", "exists")
 }
 
 func handleRegister(c *gin.Context) {
@@ -30,6 +30,18 @@ func handleRegister(c *gin.Context) {
 	c.JSON(http.StatusAccepted, registerUser)
 }
 
+func handleUserExists(c *gin.Context) {
+	var userCreds *models.UserCredentials
+
+	if err := c.ShouldBindJSON(&userCreds); err != nil {
+		SendErrorReponse(c, err)
+		return
+	}
+	exist := AuthService.CheckUserExists(userCreds.Email)
+	c.JSON(http.StatusAccepted, gin.H{
+		"exists": exist,
+	})
+}
 func handleSignIn(c *gin.Context) {
 	var userCreds *models.UserCredentials
 

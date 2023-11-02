@@ -28,15 +28,19 @@ import {
     IoSearch,
 } from "react-icons/io5";
 import { Logo } from "../pages/_app";
+import { useRouter } from "next/router";
 
 export const Header = () => (
     <Box
         mb={4}
         py={2}
+        pb={4}
         borderBottom={"1px solid rgba(0,0,0,.05)"}
         position={"sticky"}
         top={0}
         left={0}
+        bg={"white"}
+        zIndex={999}
     >
         <HStack align={"center"} justify={"space-between"} mb={4}>
             <Logo />
@@ -106,10 +110,10 @@ const MenuButton = ({ icon, children, main, href, ...props }) => {
             p={2}
             px={5}
             variant={main ? "solid" : "ghost"}
-            bg={main && Colors.primary}
-            color={"blackAlpha.700"}
+            bg={main && "black"}
+            color={main ? "whiteAlpha.800" : "blackAlpha.700"}
             _hover={{
-                color: "blackAlpha.900",
+                color: main ? "whiteAlpha.900" : "blackAlpha.900",
             }}
             {...props}
         >
@@ -126,11 +130,25 @@ const MenuButton = ({ icon, children, main, href, ...props }) => {
         </Button>
     );
 };
-const MenuItem = ({ children, href }) => {
+const MenuItem = ({ children, href, navType }) => {
+    const router = useRouter();
+    const handleNavigate = () => {
+        switch (navType) {
+            case "category":
+                router.push({
+                    pathname: "/browse",
+                    query: { category: children },
+                });
+                return;
+            default:
+                router.push({ pathname: `/${children}` });
+                return;
+        }
+    };
     return (
-        <Link
-            as={NextLink}
-            href={href ?? "/"}
+        <Button
+            variant={"link"}
+            onClick={handleNavigate}
             letterSpacing={"0px"}
             fontSize={14}
             fontFamily={"body"}
@@ -141,15 +159,17 @@ const MenuItem = ({ children, href }) => {
             noOfLines={1}
         >
             {children}
-        </Link>
+        </Button>
     );
 };
 const CategoriesList = () => {
+    const router = useRouter();
     const [categories, setCategories] = useState();
     const catsToShow = 5;
     useEffect(() => {
         getTopLevelCategories(setCategories);
     }, []);
+
     return (
         categories && (
             <HStack spacing={6} align={"center"}>
@@ -159,7 +179,11 @@ const CategoriesList = () => {
                 />
                 {categories.map(
                     (c, i) =>
-                        i < catsToShow && <MenuItem>{c.CategoryName}</MenuItem>
+                        i < catsToShow && (
+                            <MenuItem navType={"category"}>
+                                {c.CategoryName}
+                            </MenuItem>
+                        )
                 )}
             </HStack>
         )
@@ -186,7 +210,9 @@ const MoreCategoriesDropdown = ({ categories, shownCats }) => {
                 <PopoverBody maxH={"500px"} overflow={"scroll"}>
                     <VStack alignItems={"flex-start"} spacing={4}>
                         {categories?.map((c, i) => (
-                            <MenuItem>{c.CategoryName}</MenuItem>
+                            <MenuItem navType={"category"}>
+                                {c.CategoryName}
+                            </MenuItem>
                         ))}
                     </VStack>
                 </PopoverBody>
